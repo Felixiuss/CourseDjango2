@@ -74,7 +74,7 @@ class Post(models.Model):
         null=True
     )
     image = models.ImageField('Главная фотография', upload_to='post/', null=True, blank=True)
-    tags = models.ManyToManyField(Tag, verbose_name='Тег', blank=True, related_name='tag')
+    tags = models.ManyToManyField(Tag, verbose_name='Тег', blank=True)
     category = models.ForeignKey(
         Category,
         verbose_name="Категория",
@@ -94,10 +94,6 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("detail_post", kwargs={'category': self.category.slug, 'slug': self.slug})
-
-    def get_tags(self):
-        """возвращает все теги конкретного поста"""
-        return self.tags.all()
 
     def __str__(self):
         return "{}".format(self.title)
