@@ -5,6 +5,7 @@
     <title>Title</title>
 </head>
 <body>
+    <h1>Sport</h1>
     {% for category in categories %}
         <p><a href="{% url 'category' category.slug %}">{{category.name}}</a></p>
     {% endfor %}
@@ -14,7 +15,7 @@
         <p>{{post.mini_text}}</p>
         <small>{{post.published_date}}</small>
         <small>Просмотров - {{post.viewed}}</small><br>
-        <small>Комментариев - {{post.get_comment_count}}</small>
+        <small>Комментариев - {{post.get_comments_count}}</small>
     {% endfor %}
 
 </body>

@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.base import View
 
-from .models import Category, Post
+from .models import Category, Post, Comment, Tag
 
 
 # def home(request):
@@ -27,14 +27,22 @@ class PostDetailView(View):
     def get(self, request, category, slug):
         category_list = Category.objects.all()
         post = Post.objects.get(slug=slug)
-        # tags = post.get_tags()  # вызов метода модели Post
+        # tags = post.get_tags()  # вызов метода модели Post, но удобней вызывать прямо из шаблона (это просто пример)
         # print(tags)
-        return render(request, 'blog/post_detail.html', {'categories': category_list, 'post': post})
+        return render(request, post.template, {'categories': category_list, 'post': post})
 
 
 class CategoryView(View):
     """Output of category articles"""
-    def get(self, request, category_name):
-        category = Category.objects.get(slug=category_name)
-        return render(request, 'blog/post_list.html', {'category': category})
+    def get(self, request, category_slug):
+        posts = Post.objects.filter(
+            category__slug=category_slug, category__published=True, published=True
+        )
+        return render(request, posts.first().get_category_template(), {'post_list': posts})
 
+
+class TagView(View):
+    """Output articles by tag"""
+    def get(self, request, slug):
+        posts = Post.objects.filter(tags__slug=slug, published=True)
+        return render(request, posts.first().get_category_template(), {'post_list': posts})

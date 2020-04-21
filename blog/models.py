@@ -92,8 +92,17 @@ class Post(models.Model):
         verbose_name = 'Новость'
         verbose_name_plural = 'Новости'
 
+    def get_category_template(self):
+        return self.category.template
+
     def get_absolute_url(self):
         return reverse("detail_post", kwargs={'category': self.category.slug, 'slug': self.slug})
+
+    def get_tags(self):
+        return self.tags.all()
+
+    def get_comments_count(self):
+        return self.comment.count()
 
     def __str__(self):
         return "{}".format(self.title)
@@ -106,7 +115,12 @@ class Comment(models.Model):
         verbose_name="Автор",
         on_delete=models.CASCADE,
     )
-    post = models.ForeignKey(Post, verbose_name="Статья", on_delete=models.CASCADE)
+    post = models.ForeignKey(
+        Post,
+        verbose_name="Статья",
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
     text = models.TextField("Комментарий")
     create_date = models.DateTimeField("Дата создания", auto_now=True)
     moderation = models.BooleanField(default=True)
