@@ -9,13 +9,16 @@
         <p><a href="{% url 'category' category.slug %}">{{category.name}}</a></p>
     {% endfor %}
     <hr>
-    {% for post in post_list %}
-        <h2><a href="{{ post.get_absolute_url }}">{{post.title}}</a></h2>
-        <p>{{post.mini_text}}</p>
-        <small>{{post.published_date}}</small>
-        <small>Просмотров - {{post.viewed}}</small><br>
-        <small>Комментариев - {{post.get_comment_count}}</small>
-    {% endfor %}
-
+    {% if post_list %}
+        {% for post in post_list %}
+            <h2><a href="{{ post.get_absolute_url }}">{{post.title}}</a></h2>
+            <p>{{post.mini_text}}</p>
+            <small>{{post.published_date}}</small>
+            <small>Просмотров - {{post.viewed}}</small><br>
+            <small>Комментариев - {{post.get_comment_count}}</small>
+        {% endfor %}
+    {% else %}
+        <h2>Статей нет</h2>
+    {% endif %}
 </body>
 </html>

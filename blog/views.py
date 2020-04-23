@@ -34,15 +34,23 @@ class PostDetailView(View):
 
 class CategoryView(View):
     """Output of category articles"""
-    def get(self, request, category_slug):
-        posts = Post.objects.filter(
-            category__slug=category_slug, category__published=True, published=True
-        )
-        return render(request, posts.first().get_category_template(), {'post_list': posts})
+    # posts = []
+    def get(self, request, category_slug=None, slug=None):
+        if category_slug:
+            posts = Post.objects.filter(
+                category__slug=category_slug, category__published=True, published=True
+            )
+        else:
+            posts = Post.objects.filter(tags__slug=slug, published=True)
+        if posts:  # if posts.exists()
+            template = posts.first().get_category_template()
+        else:
+            template = 'blog/post_list.html'
+        return render(request, template, {'post_list': posts})
 
 
-class TagView(View):
-    """Output articles by tag"""
-    def get(self, request, slug):
-        posts = Post.objects.filter(tags__slug=slug, published=True)
-        return render(request, posts.first().get_category_template(), {'post_list': posts})
+# class TagView(View):
+#     """Output articles by tag"""
+#     def get(self, request, slug):
+#         posts = Post.objects.filter(tags__slug=slug, published=True)
+#         return render(request, posts.first().get_category_template(), {'post_list': posts})

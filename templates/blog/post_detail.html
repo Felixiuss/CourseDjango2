@@ -34,7 +34,7 @@
 {#        {% endfor %}#}
 
 {#            Доступ к комментариям через связь Foreign key#}
-        {% for comment in post.comment_set.all %}
+        {% for comment in post.comments.all %}
             Пользователь - {{ comment.author }}<br>
             {{ comment.text }} <br>
             Добавлен - {{ comment.create_date }}<br><br>
