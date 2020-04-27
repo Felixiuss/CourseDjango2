@@ -43,7 +43,7 @@ class CategoryView(View):
         else:
             posts = Post.objects.filter(tags__slug=slug, published=True)
         if posts:  # if posts.exists()
-            template = posts.first().get_category_template()
+            template = posts.first().get_category_template()  # тоже что posts[0].get_category_template()
         else:
             template = 'blog/post_list.html'
         return render(request, template, {'post_list': posts})
