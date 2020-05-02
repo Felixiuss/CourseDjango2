@@ -18,7 +18,9 @@
 {#        Теги - {% for tag in post.get_tags %} вызов метода модели POST (скобки в шаблонах ставить не нужно !!!)#}
 
         Теги - {% for tag in post.tags.all %}
+                {% if tag.published %}
                     #<a href="{% url 'tag' tag.slug %}">{{ tag.name }}</a>,
+                {% endif %}
                {% endfor %}
         <br>
         <small>Автор: {{ post.author }} - {{ post.published_date }}</small><br>
