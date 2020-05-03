@@ -4,6 +4,7 @@ from . import views
 
 
 urlpatterns = [
+    path("comment/", views.CreateCommentView.as_view(), name='add-comment'),
     path('tag/<slug:slug>/', views.PostListView.as_view(), name='tag'),
     path("<slug:category>/<slug:slug>/", views.PostDetailView.as_view(), name='detail_post'),
     path("<slug:category_slug>/", views.PostListView.as_view(), name='category'),

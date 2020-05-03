@@ -35,3 +35,21 @@ class PostDetailView(View):
         # tags = post.get_tags()  # вызов метода модели Post, но удобней вызывать прямо из шаблона (это просто пример)
         # print(tags)
         return render(request, post.template, {'categories': category_list, 'post': post})
+
+
+class CreateCommentView(View):
+    def post(self, request):
+        print(request.POST)
+        # first variant
+        # Comment.objects.create(
+        #     author=request.user, post_id=request.POST.get("post"), text=request.POST.get("text")
+        # )
+
+        # second variant
+        comment = Comment()
+        comment.author = request.user
+        comment.post_id = request.POST.get("post")
+        comment.text = request.POST.get("text")
+        comment.save()
+
+        return HttpResponse(status=201)
