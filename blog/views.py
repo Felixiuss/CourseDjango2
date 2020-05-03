@@ -1,10 +1,11 @@
 from datetime import datetime
 
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic.base import View
 
 from .models import Category, Post, Comment, Tag
+from .forms import CommentForm
 
 
 class PostListView(View):
@@ -32,24 +33,18 @@ class PostDetailView(View):
     def get(self, request, **kwargs):
         category_list = Category.objects.filter(published=True)
         post = get_object_or_404(Post, slug=kwargs.get("slug"))
-        # tags = post.get_tags()  # вызов метода модели Post, но удобней вызывать прямо из шаблона (это просто пример)
-        # print(tags)
-        return render(request, post.template, {'categories': category_list, 'post': post})
+        form = CommentForm()
+        return render(
+            request, post.template, {'categories': category_list, 'post': post, 'form': form}
+        )
 
-
-class CreateCommentView(View):
-    def post(self, request):
+    def post(self, request, **kwargs):
         print(request.POST)
-        # first variant
-        # Comment.objects.create(
-        #     author=request.user, post_id=request.POST.get("post"), text=request.POST.get("text")
-        # )
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.post = Post.objects.get(slug=kwargs.get("slug"))
+            form.author = request.user
+            form.save()
+        return redirect(request.path)
 
-        # second variant
-        comment = Comment()
-        comment.author = request.user
-        comment.post_id = request.POST.get("post")
-        comment.text = request.POST.get("text")
-        comment.save()
-
-        return HttpResponse(status=201)
