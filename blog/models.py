@@ -28,6 +28,9 @@ class Category(MPTTModel):
         verbose_name = 'Категория новостей'
         verbose_name_plural = 'Категории новостей'
 
+    class MPTTMeta:
+        order_insertion_by = ('sort', )
+
     def get_absolute_url(self):
         return reverse('category', kwargs={'category_slug': self.slug})
 
@@ -94,6 +97,7 @@ class Post(models.Model):
     class Meta:
         verbose_name = 'Новость'
         verbose_name_plural = 'Новости'
+        ordering = ['sort', '-published_date']
 
     def get_category_template(self):
         return self.category.template

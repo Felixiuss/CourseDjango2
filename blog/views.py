@@ -14,7 +14,7 @@ class PostListView(View):
         return Post.objects.filter(published_date__lte=datetime.now(), published=True)
 
     def get(self, request, category_slug=None, slug=None):
-        category_list = Category.objects.filter(published=True)
+        # category_list = Category.objects.filter(published=True)
         if category_slug:
             posts = self.get_queryset().filter(category__slug=category_slug, category__published=True)
         elif slug:
@@ -25,7 +25,7 @@ class PostListView(View):
             template = posts.first().get_category_template()  # тоже что posts[0].get_category_template()
         else:
             template = 'blog/post_list.html'
-        return render(request, template, {'post_list': posts, 'categories': category_list})
+        return render(request, template, {'post_list': posts})
 
 
 class PostDetailView(View):
@@ -47,4 +47,3 @@ class PostDetailView(View):
             form.author = request.user
             form.save()
         return redirect(request.path)
-
