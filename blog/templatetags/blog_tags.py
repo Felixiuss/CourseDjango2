@@ -8,7 +8,7 @@ register = template.Library()  # регистрация templates
 
 def get_categories(context, order, count):
     """Получаю список Категорий"""
-    categories = Category.objects.filter(published=True).order_by(order)
+    categories = Category.objects.filter(published=True).order_by(order)  #parent__isnull=True
     if count is not None:  # if count
         categories = categories[:count]
     return categories

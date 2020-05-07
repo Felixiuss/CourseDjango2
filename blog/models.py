@@ -28,8 +28,8 @@ class Category(MPTTModel):
         verbose_name = 'Категория новостей'
         verbose_name_plural = 'Категории новостей'
 
-    class MPTTMeta:
-        order_insertion_by = ('sort', )
+    # class MPTTMeta:
+    #     order_insertion_by = ('sort', )
 
     def get_absolute_url(self):
         return reverse('category', kwargs={'category_slug': self.slug})
