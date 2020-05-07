@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.db.models import Q
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'mptt',
 
     'blog',
+    'menu',
     'pages',
 ]
 
@@ -131,3 +134,10 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Menu config
+MENU_APPS = (
+        Q(app_label='pages', model='pages') |
+        Q(app_label='blog', model='post') |
+        Q(app_label='blog', model='category')
+)
