@@ -39,6 +39,7 @@ class Pages(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
+        """Построение правильного url"""
         return iri_to_uri(get_script_prefix().rstrip('/') + self.slug)
 
     class Meta:
