@@ -15,7 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.db.models import Q
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # путь к нашему проекту
 
 
 # Quick-start development settings - unsuitable for production
@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',  # указывает на каком сайте мы находимся
 
     'mptt',
+    'ckeditor',
 
     'blog',
     'menu',
@@ -130,9 +131,14 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(BASE_DIR, 'static')  # директория где лежит наша папка со статикой
+STATICFILES_DIRS = [STATIC_DIR, ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CKEDITOR_UPLOAD_PATH = "uploads/"  # куда будут загружаться файлы через CKEditor
 
 # Menu config
 MENU_APPS = (
