@@ -13,15 +13,15 @@ class CategoryAdmin(ActionPublish):
 
 
 class CommentsInline(admin.StackedInline):
-    """Вставка комментариев в модель Post"""
+    """Вставка возможности добавления/удалениы комментариев в модель Post"""
     model = Comment
     extra = 1
 
 
 class PostAdmin(ActionPublish):
     """Посты блога"""
-    inlines = [CommentsInline]
-    filter_horizontal = ("tags",)
+    inlines = [CommentsInline]  # вставка комментариев
+    filter_horizontal = ("tags",)  # видоизменяет виджет many-to-many
     fieldsets = (
         ('Контент', {
             'fields': ('author', 'title', 'subtitle', 'slug'),
