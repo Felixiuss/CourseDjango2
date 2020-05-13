@@ -147,7 +147,6 @@ CKEDITOR_UPLOAD_PATH = "uploads/"  # куда будут загружаться 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
-    ...
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
@@ -166,8 +165,19 @@ ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'
 # ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 # Menu config
+# Настройка выпадющего списка модели Menu
 MENU_APPS = (
         Q(app_label='pages', model='pages') |
         Q(app_label='blog', model='post') |
         Q(app_label='blog', model='category')
 )
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackends'
+
+DEFAULT_FROM__EMAIL = 'email'
+EMAIL_HOST = 'smtp'
+EMAIL_HOST_USER = 'email'
+EMAIL_HOST_PASSWORD = 'pass'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
