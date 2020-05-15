@@ -109,7 +109,7 @@ class Post(models.Model):
         return self.tags.all()
 
     def get_comments_count(self):
-        return self.comment.count()
+        return self.comments.count()
 
     def __str__(self):
         return "{}".format(self.title)
